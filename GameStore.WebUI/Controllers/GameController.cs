@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using GameStore.Domain.Abstract;
-using GameStore.Domain.Entities;
 using GameStore.WebUI.Models;
 
 namespace GameStore.WebUI.Controllers
@@ -19,20 +15,24 @@ namespace GameStore.WebUI.Controllers
             repository = repo;
         }
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
             GamesListViewModel model = new GamesListViewModel
             {
                 Games = repository.Games
+                    .Where(p => category == null || p.Category == category)
                     .OrderBy(game => game.GameId)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize),
-                PagingInfo = new PagingInfo
-                {
-                    CurrentPage = page,
-                    ItemsPerPage = pageSize,
-                    TotalItems = repository.Games.Count()
-                }
+                        PagingInfo = new PagingInfo
+                        {
+                            CurrentPage = page,
+                            ItemsPerPage = pageSize,
+                            TotalItems = category == null ?
+                                repository.Games.Count() :
+                                repository.Games.Where(game => game.Category == category).Count()
+                        },
+                CurrentCategory = category
             };
             return View(model);
         }
