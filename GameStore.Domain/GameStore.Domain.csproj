@@ -78,10 +78,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IGameRepository.cs" />
+    <Compile Include="Abstract\IOrderProcessor.cs" />
+    <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Concrete\GameStoreDBContext.cs" />
     <Compile Include="Concrete\GameStoreDBRepository.cs" />
     <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
